@@ -1,6 +1,6 @@
 #pragma once
 // snippet: binom
-using mint = modint998244353; // @nopaste（単体確認用。mint は自分で定義しておく）
+using mint = modint998244353; // @nopaste (for checking this file alone; define mint yourself)
 template<class T = mint>
 T binom(ll n, ll k) {
   if (k < 0 || n < k) return 0;

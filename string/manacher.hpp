@@ -1,6 +1,6 @@
 #pragma once
 // snippet: manacher
-void manacher_check(ll n, const string& s) {  // @nopaste（単体確認用。貼るときは中身だけになる）
+void manacher_check(ll n, const string& s) {  // @nopaste (for checking this file alone; only the body is pasted)
 vector<ll> R(n);
 ll c = 0, r = 0;
 while (c < n) {

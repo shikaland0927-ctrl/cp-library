@@ -1,6 +1,6 @@
 #pragma once
 // snippet: bc
-using mint = modint998244353; // @nopaste（単体確認用。mint は自分で定義しておく）
+using mint = modint998244353; // @nopaste (for checking this file alone; define mint yourself)
 struct BiCoef {
   vector<mint> fac, finv;
   BiCoef(int n) : fac(n + 1), finv(n + 1) {
