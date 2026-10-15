@@ -1,6 +1,6 @@
 #pragma once
 // snippet: lis
-template <typename T = ll> struct Lis {
+template <typename T = ll> struct LIS {
   ll n;
   vector<T> v;
   mutable vector<T> dp;
@@ -8,8 +8,8 @@ template <typename T = ll> struct Lis {
   bool strictly;
   mutable bool built = false;
 
-  Lis(ll n, bool strictly = true) : n(n), v(n), strictly(strictly) {}
-  Lis(const vector<T>& v, bool strictly = true) : n(v.size()), v(v), strictly(strictly) {}
+  LIS(ll n, bool strictly = true) : n(n), v(n), strictly(strictly) {}
+  LIS(const vector<T>& v, bool strictly = true) : n(v.size()), v(v), strictly(strictly) {}
 
   T& operator[](ll i) {
     built = false;
@@ -70,8 +70,8 @@ template <typename T = ll> struct Lis {
 };
 /*
     -- Constructor --
-    Lis<T = ll> lis(ll n, bool strictly = true)
-    Lis<T = ll> lis(const vector<T>& v, bool strictly = true)
+    LIS<T = ll> lis(ll n, bool strictly = true)
+    LIS<T = ll> lis(const vector<T>& v, bool strictly = true)
     
     v: Target array
     n: Size of the target array (elements can be modified via lis[i] = x)
