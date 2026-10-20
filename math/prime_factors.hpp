@@ -2,7 +2,7 @@
 // snippet: pf
 vector<pair<ll, ll>> prime_factors(ll n) {
   vector<pair<ll, ll>> res;
-  for (ll a = 2; a * a <= n; ++a) {
+  for (ll a = 2; a * a <= n; a++) {
     if (n % a != 0) continue;
     ll ex = 0;
     while (n % a == 0) {

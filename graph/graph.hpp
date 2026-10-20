@@ -85,7 +85,7 @@ struct Graph {
 
   vector<ll> topological_sort() const {
     vector<ll> indegree(n);
-    rep(v, n) for (const auto& edge : to[v]) ++indegree[edge.fi];
+    rep(v, n) for (const auto& edge : to[v]) indegree[edge.fi]++;
 
     queue<ll> q;
     // lexicographically smallest
