@@ -14,12 +14,12 @@ struct Graph {
     queue<ll> q;
     q.em(s);
     while (q.size()) {
-      ll v = q.front(); q.pop();
-      for (const auto& [nv, cost] : to[v]) {
+      ll u = q.front(); q.pop();
+      for (const auto& [v, cost] : to[u]) {
         assert(cost == 1);
-        if (chmin(dist[nv], dist[v] + cost)) {
-          pre[nv] = v;
-          q.em(nv);
+        if (chmin(dist[v], dist[u] + cost)) {
+          pre[v] = u;
+          q.em(v);
         }
       }
     }
@@ -31,13 +31,13 @@ struct Graph {
     deque<ll> dq;
     dq.eb(s);
     while (dq.size()) {
-      ll v = dq.front(); dq.pop_front();
-      for (const auto& [nv, cost] : to[v]) {
+      ll u = dq.front(); dq.pf();
+      for (const auto& [v, cost] : to[u]) {
         assert(cost == 0 || cost == 1);
-        if (chmin(dist[nv], dist[v] + cost)) {
-          pre[nv] = v;
-          if (cost == 0) dq.ef(nv);
-          else dq.eb(nv);
+        if (chmin(dist[v], dist[u] + cost)) {
+          pre[v] = u;
+          if (cost == 0) dq.ef(v);
+          else dq.eb(v);
         }
       }
     }
@@ -49,13 +49,13 @@ struct Graph {
     priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> pq;
     pq.em(0, s);
     while (pq.size()) {
-      auto [d, v] = pq.top(); pq.pop();
-      if (dist[v] < d) continue;
-      for (const auto& [nv, cost] : to[v]) {
+      auto [d, u] = pq.top(); pq.pop();
+      if (dist[u] < d) continue;
+      for (const auto& [v, cost] : to[u]) {
         assert(cost >= 0);
-        if (chmin(dist[nv], d + cost)) {
-          pre[nv] = v;
-          pq.em(dist[nv], nv);
+        if (chmin(dist[v], d + cost)) {
+          pre[v] = u;
+          pq.em(dist[v], v);
         }
       }
     }
@@ -66,10 +66,10 @@ struct Graph {
     dist[s] = 0;
     rep (n - 1) {
       bool update = false;
-      rep(v, n) {
-        if (dist[v] == inf) continue;
-        for (const auto& [nv, cost] : to[v]) if (chmin(dist[nv], dist[v] + cost)) {
-          pre[nv] = v;
+      rep(u, n) {
+        if (dist[u] == inf) continue;
+        for (const auto& [v, cost] : to[u]) if (chmin(dist[v], dist[u] + cost)) {
+          pre[v] = u;
           update = true;
         }
       }
@@ -94,11 +94,11 @@ struct Graph {
 
     vector<ll> order;
     while (q.size()) {
-      ll v = q.front(); q.pop();
-      order.eb(v);
-      for (const auto& edge : to[v]) {
-        ll nv = edge.fi;
-        if (--indegree[nv] == 0) q.em(nv);
+      ll u = q.front(); q.pop();
+      order.eb(u);
+      for (const auto& edge : to[u]) {
+        ll v = edge.fi;
+        if (--indegree[v] == 0) q.em(v);
       }
     }
     if (ssize(order) != n) return {};
