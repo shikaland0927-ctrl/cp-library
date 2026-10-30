@@ -14,11 +14,13 @@ struct WaveletMatrix {
 
   ll n, height;
   vector<BitRank> dat;
+  vector<vector<ll>> sum;  // prefix sums of the values after the split at level h
 
   WaveletMatrix(vector<ll> v) : n(v.size()) {
     ll mx = (v.size() ? *max_element(all(v)) : 0);
     height = (mx == 0 ? 1 : 64 - __builtin_clzll(mx));
     dat.resize(height);
+    sum.resize(height);
     rrep (h, height) {
       vector<ll> dir(n), left, right;
       rep (i, n) {
@@ -28,6 +30,8 @@ struct WaveletMatrix {
       dat[h] = BitRank(dir);
       v = left;
       v.insert(v.end(), all(right));
+      sum[h].resize(n + 1);
+      rep (i, n) sum[h][i + 1] = sum[h][i] + v[i];
     }
   }
 
@@ -47,6 +51,14 @@ struct WaveletMatrix {
     return (1LL << h) | kth_smallest_rec(h - 1, l1, r1, k - left_size);
   }
 
+  ll sum_smallest_rec(ll h, ll l, ll r, ll k) {
+    if (h == -1) return sum[0][l + k] - sum[0][l];
+    auto [l0, r0, l1, r1] = get_subtree_range(h, l, r);
+    ll left_size = r0 - l0;
+    if (k < left_size) return sum_smallest_rec(h - 1, l0, r0, k);
+    return sum[h][r0] - sum[h][l0] + sum_smallest_rec(h - 1, l1, r1, k - left_size);
+  }
+
   ll cnt_lower_rec(ll h, ll l, ll r, ll x) {
     if (l == r || h == -1) return 0;
     auto [l0, r0, l1, r1] = get_subtree_range(h, l, r);
@@ -56,6 +68,7 @@ struct WaveletMatrix {
 
   ll kth_smallest(ll l, ll r, ll k) { return kth_smallest_rec(height - 1, l, r, k); }
   ll kth_largest(ll l, ll r, ll k) { return kth_smallest_rec(height - 1, l, r, r - l - 1 - k); }
+  ll sum_smallest(ll l, ll r, ll k) { return sum_smallest_rec(height - 1, l, r, k); }
   ll cnt_lower(ll l, ll r, ll x) {
     if (x <= 0) return 0;
     if (height < 64 && (ull)x >= (1ULL << height)) return r - l;
@@ -79,6 +92,11 @@ struct WaveletMatrix {
     ll wm.kth_largest(ll l, ll r, ll k)
     Time Complexity: O(log(MAX_V))
     Returns the 0-indexed k-th largest element in the range [l, r).
+
+    -- Sums --
+    ll wm.sum_smallest(ll l, ll r, ll k)
+    Time Complexity: O(log(MAX_V))
+    Returns the sum of the k smallest elements in the range [l, r) (0 <= k <= r - l).
 
     -- Frequencies --
     ll wm.cnt_lower(ll l, ll r, ll x)
