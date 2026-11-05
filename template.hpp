@@ -11,6 +11,8 @@ using namespace atcoder;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
+template<class... T> using umap = unordered_map<T...>;
+template<class... T> using uset = unordered_set<T...>;
 const ll inf = 4e18;
 const ld pi = acos(-1.0L);
 
