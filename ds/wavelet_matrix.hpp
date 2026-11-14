@@ -17,6 +17,7 @@ struct WaveletMatrix {
   vector<vector<ll>> sum;  // prefix sums of the values after the split at level h
 
   WaveletMatrix(vector<ll> v) : n(v.size()) {
+    rep (i, n) assert(v[i] >= 0);
     ll mx = (v.size() ? *max_element(all(v)) : 0);
     height = (mx == 0 ? 1 : 64 - __builtin_clzll(mx));
     dat.resize(height);
@@ -75,7 +76,7 @@ struct WaveletMatrix {
     return cnt_lower_rec(height - 1, l, r, x);
   }
   ll range_freq(ll l, ll r, ll lower, ll upper) {
-    if (!(l < r || lower < upper)) return 0;
+    if (!(l < r && lower < upper)) return 0;
     return cnt_lower(l, r, upper) - cnt_lower(l, r, lower);
   }
 };
@@ -83,6 +84,7 @@ struct WaveletMatrix {
     -- Constructor --
     WaveletMatrix wm(vector<ll> v)
     Time Complexity: O(N log(MAX_V))
+    Requires 0 <= v[i] (compress or shift negative values first).
 
     -- K-th Elements --
     ll wm.kth_smallest(ll l, ll r, ll k)
