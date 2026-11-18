@@ -11,8 +11,8 @@ using namespace atcoder;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
-template<class... T> using umap = unordered_map<T...>;
-template<class... T> using uset = unordered_set<T...>;
+template <typename... T> using umap = unordered_map<T...>;
+template <typename... T> using uset = unordered_set<T...>;
 const ll inf = 4e18;
 const ld pi = acos(-1.0L);
 
@@ -59,74 +59,74 @@ const ld pi = acos(-1.0L);
 #define INPUT_COL(type, n, ...) vector<type> __VA_ARGS__; input_col(n, __VA_ARGS__)
 #define DROP(...) do { PRINT(__VA_ARGS__); exit(0); } while (false)
 
-template<class T> concept tuple_like = requires { tuple_size<remove_cvref_t<T>>::value; };
-template<tuple_like T> istream& operator>>(istream& is, T& value) { apply([&](auto&... x) { (is >> ... >> x); }, value); return is; }
-template<class T> istream& operator>>(istream& is, vector<T>& v) { rep(i, v.size())is >> v[i]; return is; }
-template<class T, size_t N> struct nested_vector { using type = vector<typename nested_vector<T, N - 1>::type>; };
-template<class T> struct nested_vector<T, 0> { using type = T; };
-template<class T, size_t N> using nested_vector_t = typename nested_vector<T, N>::type;
-template<typename T, typename... Args> bool chmin(T& a, const Args&... args) { bool res = false; ((a > args && (a = args, res = true)), ...); return res; }
-template<typename T, typename... Args> bool chmax(T& a, const Args&... args) { bool res = false; ((a < args && (a = args, res = true)), ...); return res; }
-template<class... T> void input(T&... a) { (cin >> ... >> a); }
-template<class... T> void input_vec(ll n, T&... a) { ((a.resize(n), cin >> a), ...); }
-template<size_t I = 0, class T, tuple_like Dims> void resize_nd(T& v, const Dims& dims) {
-    v.resize(get<I>(dims));
-    if constexpr (I + 1 < tuple_size_v<remove_cvref_t<Dims>>) for (auto& x : v) resize_nd<I + 1>(x, dims);
+template <typename T> concept tuple_like = requires { tuple_size<remove_cvref_t<T>>::value; };
+template <tuple_like T> istream& operator>>(istream& is, T& value) { apply([&](auto&... x) { (is >> ... >> x); }, value); return is; }
+template <typename T> istream& operator>>(istream& is, vector<T>& v) { rep (i, v.size()) is >> v[i]; return is; }
+template <typename T, size_t N> struct nested_vector { using type = vector<typename nested_vector<T, N - 1>::type>; };
+template <typename T> struct nested_vector<T, 0> { using type = T; };
+template <typename T, size_t N> using nested_vector_t = typename nested_vector<T, N>::type;
+template <typename T, typename... Args> bool chmin(T& a, const Args&... args) { bool res = false; ((a > args && (a = args, res = true)), ...); return res; }
+template <typename T, typename... Args> bool chmax(T& a, const Args&... args) { bool res = false; ((a < args && (a = args, res = true)), ...); return res; }
+template <typename... T> void input(T&... a) { (cin >> ... >> a); }
+template <typename... T> void input_vec(ll n, T&... a) { ((a.resize(n), cin >> a), ...); }
+template <size_t I = 0, typename T, tuple_like Dims> void resize_nd(T& v, const Dims& dims) {
+  v.resize(get<I>(dims));
+  if constexpr (I + 1 < tuple_size_v<remove_cvref_t<Dims>>) for (auto& x : v) resize_nd<I + 1>(x, dims);
 }
-template<tuple_like Dims, class... T> void input_vec(const Dims& dims, T&... a) { ((resize_nd(a, dims), cin >> a), ...); }
-template<class... T> void input_col(ll n, T&... a) { (a.resize(n), ...); rep(i, n) (cin >> ... >> a[i]); }
-template<class T> concept string_like = convertible_to<const T&, string_view>;
-template<class T> concept output_range = ranges::input_range<const T&> && (!string_like<T>);
-template<class> inline constexpr bool always_false = false;
-template<class T> void output_value(ostream& os, const T& value, bool debug) {
-    using U = remove_cvref_t<T>;
-    if constexpr (string_like<T>) {
-        if (debug) os << '"';
-        os << value;
-        if (debug) os << '"';
-    } else if constexpr (same_as<U, char>) {
-        if (debug) os << '\'';
-        os << value;
-        if (debug) os << '\'';
-    } else if constexpr (output_range<T>) {
-        if (debug) os << '[';
-        bool first = true;
-        for (const auto& x : value) {
-            if (!exchange(first, false)) os << (debug ? ", " : " ");
-            output_value(os, x, debug);
-        }
-        if (debug) os << ']';
-    } else if constexpr (tuple_like<T>) {
-        if (debug) os << '(';
-        bool first = true;
-        apply([&](const auto&... x) {
-            ((os << (exchange(first, false) ? "" : (debug ? ", " : " ")), output_value(os, x, debug)), ...);
-        }, value);
-        if (debug) os << ')';
-    } else if constexpr (floating_point<U>) {
-        const auto flags = os.flags();
-        const auto precision = os.precision();
-        if (debug) os << setprecision(15) << value;
-        else os << fixed << setprecision(15) << value;
-        os.flags(flags);
-        os.precision(precision);
-    } else if constexpr (requires { os << value; }) {
-        os << value;
-    } else if constexpr (requires { value.val(); }) {
-        output_value(os, value.val(), debug);
-    } else {
-        static_assert(always_false<T>, "output_value: unsupported type");
+template <tuple_like Dims, typename... T> void input_vec(const Dims& dims, T&... a) { ((resize_nd(a, dims), cin >> a), ...); }
+template <typename... T> void input_col(ll n, T&... a) { (a.resize(n), ...); rep (i, n) (cin >> ... >> a[i]); }
+template <typename T> concept string_like = convertible_to<const T&, string_view>;
+template <typename T> concept output_range = ranges::input_range<const T&> && (!string_like<T>);
+template <typename> inline constexpr bool always_false = false;
+template <typename T> void output_value(ostream& os, const T& value, bool debug) {
+  using U = remove_cvref_t<T>;
+  if constexpr (string_like<T>) {
+    if (debug) os << '"';
+    os << value;
+    if (debug) os << '"';
+  } else if constexpr (same_as<U, char>) {
+    if (debug) os << '\'';
+    os << value;
+    if (debug) os << '\'';
+  } else if constexpr (output_range<T>) {
+    if (debug) os << '[';
+    bool first = true;
+    for (const auto& x : value) {
+      if (!exchange(first, false)) os << (debug ? ", " : " ");
+      output_value(os, x, debug);
     }
+    if (debug) os << ']';
+  } else if constexpr (tuple_like<T>) {
+    if (debug) os << '(';
+    bool first = true;
+    apply([&](const auto&... x) {
+      ((os << (exchange(first, false) ? "" : (debug ? ", " : " ")), output_value(os, x, debug)), ...);
+    }, value);
+    if (debug) os << ')';
+  } else if constexpr (floating_point<U>) {
+    const auto flags = os.flags();
+    const auto precision = os.precision();
+    if (debug) os << setprecision(15) << value;
+    else os << fixed << setprecision(15) << value;
+    os.flags(flags);
+    os.precision(precision);
+  } else if constexpr (requires { os << value; }) {
+    os << value;
+  } else if constexpr (requires { value.val(); }) {
+    output_value(os, value.val(), debug);
+  } else {
+    static_assert(always_false<T>, "output_value: unsupported type");
+  }
 }
 inline void PRINT() { cout << '\n'; }
-template<class... T> requires (sizeof...(T) > 0) void PRINT(const T&... value) {
-    bool first = true;
-    ((cout << (exchange(first, false) ? "" : " "), output_value(cout, value, false)), ...);
-    cout << '\n';
+template <typename... T> requires (sizeof...(T) > 0) void PRINT(const T&... value) {
+  bool first = true;
+  ((cout << (exchange(first, false) ? "" : " "), output_value(cout, value, false)), ...);
+  cout << '\n';
 }
-template<class... T> void show_debug(string_view names, const T&... value) {
-    cerr << '[' << names << "] = [";
-    bool first = true;
-    ((cerr << (exchange(first, false) ? "" : ", "), output_value(cerr, value, true)), ...);
-    cerr << "]\n";
+template <typename... T> void show_debug(string_view names, const T&... value) {
+  cerr << '[' << names << "] = [";
+  bool first = true;
+  ((cerr << (exchange(first, false) ? "" : ", "), output_value(cerr, value, true)), ...);
+  cerr << "]\n";
 }

@@ -3,7 +3,7 @@
 using mint = modint998244353; // @nopaste (for checking this file alone; define mint yourself)
 struct BiCoef {
   vector<mint> fac, finv;
-  BiCoef(int n) : fac(n + 1), finv(n + 1) {
+  BiCoef(ll n) : fac(n + 1), finv(n + 1) {
     fac[0] = 1;
     rep (i, n) fac[i + 1] = fac[i] * (i + 1);
     finv[n] = fac[n].inv();
@@ -28,8 +28,8 @@ struct BiCoef {
 };
 /*
     -- Constructor --
-    BiCoef bc(int n)
-    Time complexity: O(n log mod) (To be used when n is small enough to build a table, suitable for queries)
+    BiCoef bc(ll n)
+    Time Complexity: O(n log mod) (To be used when n is small enough to build a table, suitable for queries)
 
     -- Factorials and their inverses --
     vector<mint> fac

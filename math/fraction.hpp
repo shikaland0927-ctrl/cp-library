@@ -9,13 +9,13 @@ struct Frac {
       den = 0;
     } else {
       if (d < 0) n = -n, d = -d;
-      __int128_t g = _gcd(n < 0 ? -n : n, d);
+      __int128_t g = gcd128(n < 0 ? -n : n, d);
       num = (ll)(n / g);
       den = (ll)(d / g);
     }
   }
 
-  static __int128_t _gcd(__int128_t a, __int128_t b) {
+  static __int128_t gcd128(__int128_t a, __int128_t b) {
     while (b) { a %= b; swap(a, b); }
     return a;
   }
@@ -55,16 +55,16 @@ struct Frac {
 /*
     -- Constructor --
     Frac frac(ll n, ll d)
-    Time complexity: O(log(min(n, d))) (Reduction via GCD)
+    Time Complexity: O(log(min(n, d))) (Reduction via GCD)
     Generates n / d.
     Without arguments: 0/1. With 1 argument: n/1.
     If d = 0, num = 1 (equivalent to INF).
 
     -- Arithmetic Operations --
     +, -, *, /, +=, -=, *=, /=
-    Time complexity: O(log(min(num, den))) 
+    Time Complexity: O(log(min(num, den))) 
 
     -- Comparison Operations --
     <=>, == 
-    Time complexity: O(1)
+    Time Complexity: O(1)
 */

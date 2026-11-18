@@ -1,6 +1,6 @@
 #pragma once
 // snippet: interval_map
-template<typename T = ll, typename V = ll> struct IntervalMap {
+template <typename T = ll, typename V = ll> struct IntervalMap {
   struct Node {
     T l;
     mutable T r;
@@ -14,8 +14,8 @@ template<typename T = ll, typename V = ll> struct IntervalMap {
 
   IntervalMap(V null = -1) : null(null) {}
   IntervalMap(const vector<V>& v, V null = -1) : null(null) {
-    for (ll l = 0, r = 0; l < (ll)v.size(); l = r) {
-      while (r < (ll)v.size() && v[r] == v[l]) r++;
+    for (ll l = 0, r = 0; l < ssize(v); l = r) {
+      while (r < ssize(v) && v[r] == v[l]) r++;
       if (v[l] != null) st.emplace_hint(st.end(), l, r, v[l]);
     }
   }

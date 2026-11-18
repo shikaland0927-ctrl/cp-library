@@ -6,10 +6,10 @@ vector<ll> dijkstra(const vector<vector<pair<ll, ll>>>& g, ll s = 0) {
   dist[s] = 0;
   pq.em(0, s);
   while (pq.size()) {
-    auto [d, v] = pq.top(); pq.pop();
-    if (dist[v] < d) continue;
-    for (auto [u, cost] : g[v])
-      if (chmin(dist[u], dist[v] + cost)) pq.em(dist[u], u);
+    auto [d, u] = pq.top(); pq.pop();
+    if (dist[u] < d) continue;
+    for (auto [v, cost] : g[u])
+      if (chmin(dist[v], d + cost)) pq.em(dist[v], v);
   }
   return dist;
 }

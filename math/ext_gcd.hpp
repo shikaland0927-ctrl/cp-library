@@ -9,6 +9,9 @@ ll ext_gcd(ll a, ll b, ll& x, ll& y) {
   y -= a / b * x;
   return g;
 }
-// find one of (x, y) s.t. ax + by = gcd(a, b)
-// O(log min(|a|, |b|))
-// max(|x|, |y|) <= max(|a|, |b|)
+/*
+    ll ext_gcd(ll a, ll b, ll& x, ll& y)
+    Time Complexity: O(log min(|a|, |b|))
+    Finds one (x, y) such that ax + by = gcd(a, b), and returns gcd(a, b).
+    max(|x|, |y|) <= max(|a|, |b|)
+*/

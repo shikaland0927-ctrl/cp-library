@@ -1,6 +1,6 @@
 #pragma once
 // snippet: mul_fmt
-template<typename T = ll> void mul_fmt(vector<T>& v) {
+template <typename T = ll> void mul_fmt(vector<T>& v) {
   ll n = v.size() - 1;
   vector<bool> isp(n + 1, true);
   rep (p, 2, n + 1) {

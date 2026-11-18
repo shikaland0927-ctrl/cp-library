@@ -48,7 +48,7 @@ struct Mo {
     -- Build --
     void mo.build()
     Sorts and determines the processing order of queries
-    Time complexity: O(Q log Q) (where Q is the number of queries)
+    Time Complexity: O(Q log Q) (where Q is the number of queries)
 
     -- Run --
     void mo.run(Add add, Del del, Rem rem)
@@ -56,5 +56,5 @@ struct Mo {
     add(ll id...)   : Process to add element 'id' to the current state
     del(ll id...)   : Process to remove element 'id' from the current state
     rem(ll q_id...) : Process to record the answer for the query added at index 'q_id'
-    Time complexity: O(N √Q)
+    Time Complexity: O(N √Q)
 */

@@ -1,6 +1,6 @@
 #pragma once
 // snippet: semiring_matrix
-template <class T,
+template <typename T,
           auto op_add,
           auto op_mul,
           auto e_add, 
@@ -28,14 +28,14 @@ struct SemiringMatrix {
     return mat;
   }
 
-  SemiringMatrix &operator+=(const SemiringMatrix &B) {
+  SemiringMatrix& operator+=(const SemiringMatrix& B) {
     assert(h == B.h && w == B.w);
     ll sz = A.size();
     rep (i, sz) A[i] = op_add(A[i], B.A[i]);
     return *this;
   }
 
-  SemiringMatrix &operator*=(const SemiringMatrix &B) {
+  SemiringMatrix& operator*=(const SemiringMatrix& B) {
     ll n = h, m = B.w, p = w;
     assert(p == B.h);
     vector<T> C(n * m, e_add());
@@ -49,8 +49,8 @@ struct SemiringMatrix {
     return *this;
   }
 
-  SemiringMatrix operator+(const SemiringMatrix &B) const { return (SemiringMatrix(*this) += B); }
-  SemiringMatrix operator*(const SemiringMatrix &B) const { return (SemiringMatrix(*this) *= B); }
+  SemiringMatrix operator+(const SemiringMatrix& B) const { return (SemiringMatrix(*this) += B); }
+  SemiringMatrix operator*(const SemiringMatrix& B) const { return (SemiringMatrix(*this) *= B); }
 
   SemiringMatrix pow(ll k) const {
     assert(h == w);
@@ -98,7 +98,7 @@ struct SemiringMatrix {
 
     -- Matrix Exponentiation --
     Matrix mat.pow(ll k)
-    Time complexity: O(n^3 log k)
+    Time Complexity: O(n^3 log k)
     Calculates the k-th power of the matrix (assert(square matrix))
 */
 

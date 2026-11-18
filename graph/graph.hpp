@@ -2,12 +2,12 @@
 // snippet: graph
 struct Graph {
   ll n;
-  vector<vector<pair<ll, ll>>> to;
+  vector<vector<pair<ll, ll>>> g;
   vector<ll> dist, pre;
 
-  Graph(ll n) : n(n), to(n), dist(n, inf), pre(n, -1) {}
+  Graph(ll n) : n(n), g(n), dist(n, inf), pre(n, -1) {}
 
-  void add_edge(ll u, ll v, ll w = 1) { to[u].eb(v, w); }
+  void add_edge(ll u, ll v, ll cost = 1) { g[u].eb(v, cost); }
 
   vector<ll> bfs(ll s = 0) {
     dist[s] = 0;
@@ -15,7 +15,7 @@ struct Graph {
     q.em(s);
     while (q.size()) {
       ll u = q.front(); q.pop();
-      for (const auto& [v, cost] : to[u]) {
+      for (const auto& [v, cost] : g[u]) {
         assert(cost == 1);
         if (chmin(dist[v], dist[u] + cost)) {
           pre[v] = u;
@@ -32,7 +32,7 @@ struct Graph {
     dq.eb(s);
     while (dq.size()) {
       ll u = dq.front(); dq.pf();
-      for (const auto& [v, cost] : to[u]) {
+      for (const auto& [v, cost] : g[u]) {
         assert(cost == 0 || cost == 1);
         if (chmin(dist[v], dist[u] + cost)) {
           pre[v] = u;
@@ -46,12 +46,12 @@ struct Graph {
 
   vector<ll> dijkstra(ll s = 0) {
     dist[s] = 0;
-    priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> pq;
+    priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<>> pq;
     pq.em(0, s);
     while (pq.size()) {
       auto [d, u] = pq.top(); pq.pop();
       if (dist[u] < d) continue;
-      for (const auto& [v, cost] : to[u]) {
+      for (const auto& [v, cost] : g[u]) {
         assert(cost >= 0);
         if (chmin(dist[v], d + cost)) {
           pre[v] = u;
@@ -66,38 +66,37 @@ struct Graph {
     dist[s] = 0;
     rep (n - 1) {
       bool update = false;
-      rep(u, n) {
+      rep (u, n) {
         if (dist[u] == inf) continue;
-        for (const auto& [v, cost] : to[u]) if (chmin(dist[v], dist[u] + cost)) {
+        for (const auto& [v, cost] : g[u]) if (chmin(dist[v], dist[u] + cost)) {
           pre[v] = u;
           update = true;
         }
       }
       if (!update) break;
     }
-    rep(n) rep(v, n) {
-      if (dist[v] == inf) continue;
-      for (const auto& [nv, cost] : to[v])
-        if (dist[v] == -inf || dist[nv] > dist[v] + cost) dist[nv] = -inf;
+    rep (n) rep (u, n) {
+      if (dist[u] == inf) continue;
+      for (const auto& [v, cost] : g[u])
+        if (dist[u] == -inf || dist[v] > dist[u] + cost) dist[v] = -inf;
     }
     return dist;
   }
 
   vector<ll> topological_sort() const {
     vector<ll> indegree(n);
-    rep(v, n) for (const auto& edge : to[v]) indegree[edge.fi]++;
+    rep (u, n) for (const auto& [v, cost] : g[u]) indegree[v]++;
 
     queue<ll> q;
     // lexicographically smallest
     // priority_queue<ll, vector<ll>, greater<>> q;
-    rep(v, n) if (indegree[v] == 0) q.em(v);
+    rep (v, n) if (indegree[v] == 0) q.em(v);
 
     vector<ll> order;
     while (q.size()) {
       ll u = q.front(); q.pop();
       order.eb(u);
-      for (const auto& edge : to[u]) {
-        ll v = edge.fi;
+      for (const auto& [v, cost] : g[u]) {
         if (--indegree[v] == 0) q.em(v);
       }
     }
@@ -113,4 +112,8 @@ struct Graph {
     return path;
   }
 };
-// add_edge is directed
+/*
+    -- Add Edge --
+    void graph.add_edge(ll u, ll v, ll cost = 1)
+    Adds a directed edge u -> v.
+*/

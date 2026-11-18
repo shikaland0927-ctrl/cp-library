@@ -75,14 +75,14 @@ struct Sieve {
   vector<ll> divisors(ll x) const {
     if (x <= 0) return {};
     if (x == 1) return {1};
-    auto pf = prime_factors(x);
+    auto factors = prime_factors(x);
     vector<ll> res;
     auto dfs = [&](auto dfs, ll idx, ll val) -> void {
-      if (idx == (ll)pf.size()) {
+      if (idx == ssize(factors)) {
         res.eb(val);
         return;
       }
-      auto [p, exp] = pf[idx];
+      auto [p, exp] = factors[idx];
       ll pw = 1;
       rep (i, exp + 1) {
         dfs(dfs, idx + 1, val * pw);

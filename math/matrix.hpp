@@ -1,6 +1,6 @@
 #pragma once
 // snippet: matrix
-template <class T> struct Matrix {
+template <typename T> struct Matrix {
   ll h, w;
   vector<T> A;
 
@@ -21,44 +21,40 @@ template <class T> struct Matrix {
 
   static Matrix I(ll n) {
     Matrix mat(n);
-    for (ll i = 0; i < n; i++) mat[i][i] = 1;
+    rep (i, n) mat[i][i] = 1;
     return mat;
   }
 
-  Matrix &operator+=(const Matrix &B) {
+  Matrix& operator+=(const Matrix& B) {
     assert(h == B.h && w == B.w);
     ll sz = A.size();
-    for (ll i = 0; i < sz; i++) A[i] += B.A[i];
+    rep (i, sz) A[i] += B.A[i];
     return *this;
   }
 
-  Matrix &operator-=(const Matrix &B) {
+  Matrix& operator-=(const Matrix& B) {
     assert(h == B.h && w == B.w);
     ll sz = A.size();
-    for (ll i = 0; i < sz; i++) A[i] -= B.A[i];
+    rep (i, sz) A[i] -= B.A[i];
     return *this;
   }
 
-  Matrix &operator*=(const Matrix &B) {
+  Matrix& operator*=(const Matrix& B) {
     ll n = h, m = B.w, p = w;
     assert(p == B.h);
     vector<T> C(n * m, 0);
-    for (ll i = 0; i < n; i++) {
-      for (ll k = 0; k < p; k++) {
-        const T val = (*this)[i][k];
-        for (ll j = 0; j < m; j++) {
-          C[i * m + j] += val * B[k][j];
-        }
-      }
+    rep (i, n) rep (k, p) {
+      const T val = (*this)[i][k];
+      rep (j, m) C[i * m + j] += val * B[k][j];
     }
     w = m;
     A.swap(C);
     return *this;
   }
 
-  Matrix operator+(const Matrix &B) const { return (Matrix(*this) += B); }
-  Matrix operator-(const Matrix &B) const { return (Matrix(*this) -= B); }
-  Matrix operator*(const Matrix &B) const { return (Matrix(*this) *= B); }
+  Matrix operator+(const Matrix& B) const { return (Matrix(*this) += B); }
+  Matrix operator-(const Matrix& B) const { return (Matrix(*this) -= B); }
+  Matrix operator*(const Matrix& B) const { return (Matrix(*this) *= B); }
 
   Matrix pow(ll k) const {
     assert(h == w);
@@ -97,6 +93,6 @@ template <class T> struct Matrix {
 
     -- Matrix Exponentiation --
     Matrix<T> mat.pow(ll k)
-    Time complexity: O(n^3 log k)
+    Time Complexity: O(n^3 log k)
     Calculates the k-th power of the matrix (assert(square matrix))
 */

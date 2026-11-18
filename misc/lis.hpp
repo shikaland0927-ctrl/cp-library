@@ -82,10 +82,10 @@ template <typename T = ll> struct LIS {
     Size of the LIS
 
     vector<T> lis.get_val()
-    Time complexity: O(lis.size())
+    Time Complexity: O(lis.size())
     Returns an array of the values that make up the LIS
 
     vector<ll> lis.get_id()
-    Time complexity: O(lis.size())
+    Time Complexity: O(lis.size())
     Returns an array of the indices in the original array v of the elements that make up the LIS
 */

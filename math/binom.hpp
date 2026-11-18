@@ -1,7 +1,7 @@
 #pragma once
 // snippet: binom
 using mint = modint998244353; // @nopaste (for checking this file alone; define mint yourself)
-template<class T = mint>
+template <typename T = mint>
 T binom(ll n, ll k) {
   if (k < 0 || n < k) return 0;
   if (k > n - k) k = n - k;
@@ -11,5 +11,5 @@ T binom(ll n, ll k) {
 }
 /*
     T binom<T>(ll n, ll k)
-    Time complexity: O(min(k, n - k)) (To be used when n is huge and a table cannot be built, but k is small)
+    Time Complexity: O(min(k, n - k)) (To be used when n is huge and a table cannot be built, but k is small)
 */

@@ -60,24 +60,24 @@ struct WaveletMatrix {
     return sum[h][r0] - sum[h][l0] + sum_smallest_rec(h - 1, l1, r1, k - left_size);
   }
 
-  ll cnt_lower_rec(ll h, ll l, ll r, ll x) {
+  ll count_lower_rec(ll h, ll l, ll r, ll x) {
     if (l == r || h == -1) return 0;
     auto [l0, r0, l1, r1] = get_subtree_range(h, l, r);
-    if ((x >> h) & 1) return r0 - l0 + cnt_lower_rec(h - 1, l1, r1, x);
-    return cnt_lower_rec(h - 1, l0, r0, x);
+    if ((x >> h) & 1) return r0 - l0 + count_lower_rec(h - 1, l1, r1, x);
+    return count_lower_rec(h - 1, l0, r0, x);
   }
 
   ll kth_smallest(ll l, ll r, ll k) { return kth_smallest_rec(height - 1, l, r, k); }
   ll kth_largest(ll l, ll r, ll k) { return kth_smallest_rec(height - 1, l, r, r - l - 1 - k); }
   ll sum_smallest(ll l, ll r, ll k) { return sum_smallest_rec(height - 1, l, r, k); }
-  ll cnt_lower(ll l, ll r, ll x) {
+  ll count_lower(ll l, ll r, ll x) {
     if (x <= 0) return 0;
     if (height < 64 && (ull)x >= (1ULL << height)) return r - l;
-    return cnt_lower_rec(height - 1, l, r, x);
+    return count_lower_rec(height - 1, l, r, x);
   }
   ll range_freq(ll l, ll r, ll lower, ll upper) {
     if (!(l < r && lower < upper)) return 0;
-    return cnt_lower(l, r, upper) - cnt_lower(l, r, lower);
+    return count_lower(l, r, upper) - count_lower(l, r, lower);
   }
 };
 /*
@@ -101,7 +101,7 @@ struct WaveletMatrix {
     Returns the sum of the k smallest elements in the range [l, r) (0 <= k <= r - l).
 
     -- Frequencies --
-    ll wm.cnt_lower(ll l, ll r, ll x)
+    ll wm.count_lower(ll l, ll r, ll x)
     Time Complexity: O(log(MAX_V))
     Returns the number of elements strictly less than `x` in the range [l, r).
 

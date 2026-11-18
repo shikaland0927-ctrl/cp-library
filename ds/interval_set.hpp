@@ -1,6 +1,6 @@
 #pragma once
 // snippet: interval_set
-template<typename T = ll> struct IntervalSet {
+template <typename T = ll> struct IntervalSet {
   struct Node {
     T l;
     mutable T r;

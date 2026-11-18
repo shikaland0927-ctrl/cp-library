@@ -6,7 +6,7 @@ struct RollingHash {
   ll base;
 
   RollingHash(const string& s, ll base = 0) : base(base) {
-    int n = s.size();
+    ll n = s.size();
     if (this->base == 0) {
       random_device rd;
       mt19937_64 rng(rd());
@@ -14,7 +14,7 @@ struct RollingHash {
     }
     hash.assign(n + 1, 0);
     power.assign(n + 1, 1);
-    for (int i = 0; i < n; i++) {
+    rep (i, n) {
       hash[i + 1] = mul(hash[i], this->base) + s[i];
       if (hash[i + 1] >= mod) hash[i + 1] -= mod;
       power[i + 1] = mul(power[i], this->base);
@@ -31,21 +31,21 @@ struct RollingHash {
     return a;
   }
 
-  ll get(int l, int r) { return add(hash[r], mod - mul(hash[l], power[r - l])); }
+  ll get(ll l, ll r) { return add(hash[r], mod - mul(hash[l], power[r - l])); }
 };
 /*
     -- Constructor --
     (1) RollingHash rh(const string& s)
-    Time complexity: O(|s|)
+    Time Complexity: O(|s|)
     Automatically generates a base using random numbers and builds the hash for string s.
 
     (2) RollingHash rh(const string& s, ll base)
-    Time complexity: O(|s|)
+    Time Complexity: O(|s|)
     Constructs using a specified base.
     (* Note: When comparing hash values between multiple strings, a common base must be specified, e.g., rh2(t, rh1.base))
 
     -- Get Hash Value --
-    ll rh.get(int l, int r)
-    Time complexity: O(1)
+    ll rh.get(ll l, ll r)
+    Time Complexity: O(1)
     Returns the hash value of the substring s[l:r] corresponding to the 0-indexed half-open interval [l, r).
 */

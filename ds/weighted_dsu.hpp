@@ -1,10 +1,10 @@
 #pragma once
 // snippet: wdsu
-template <typename T = ll> struct wdsu {
+template <typename T = ll> struct WeightedDSU {
   vector<ll> parent_or_size;
   vector<T> diff_weight;
 
-  wdsu(ll n) : parent_or_size(n, -1), diff_weight(n, 0) {}
+  WeightedDSU(ll n) : parent_or_size(n, -1), diff_weight(n, 0) {}
 
   ll leader(ll v) {
     if (parent_or_size[v] < 0) return v;
@@ -42,28 +42,28 @@ template <typename T = ll> struct wdsu {
 };
 /*
     -- Constructor --
-    wdsu<T = ll> uf(ll n)
+    WeightedDSU<T = ll> uf(ll n)
 
     -- Leader (Root) --
     ll uf.leader(ll v)
 
     -- Group Check --
     bool uf.same(ll u, ll v)
-    Time complexity: Amortized O(α(n))
+    Time Complexity: Amortized O(α(n))
 
     -- Weighted Merge --
     bool uf.merge(ll u, ll v, T w)
-    Time complexity: Amortized O(α(n))
+    Time Complexity: Amortized O(α(n))
     Merges the groups of u and v such that weight(u) + w = weight(v).
     Returns false if they already belong to the same group, and true if newly merged.
 
     -- Get Weight Difference --
     T uf.diff(ll u, ll v)
-    Time complexity: Amortized O(α(n))
+    Time Complexity: Amortized O(α(n))
     Returns the weight from u to v (weight(v) - weight(u)) (assert(same(u, v))).
 
     -- Size of Connected Component --
     ll uf.size(ll v)
-    Time complexity: Amortized O(α(n))
+    Time Complexity: Amortized O(α(n))
     Returns the number of elements in the group to which v belongs.
 */

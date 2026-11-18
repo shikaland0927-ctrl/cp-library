@@ -34,7 +34,7 @@ template <ll char_size = 26, char margin = 'a'> struct AhoCorasick {
 
   void build() {
     queue<ll> q;
-    for (ll i = 0; i < char_size; i++) {
+    rep (i, char_size) {
       if (nodes[0].nxt[i] != -1) {
         nodes[nodes[0].nxt[i]].fail = 0;
         q.em(nodes[0].nxt[i]);
@@ -45,16 +45,16 @@ template <ll char_size = 26, char margin = 'a'> struct AhoCorasick {
     bfs_order.clear();
     bfs_order.eb(0);
     while (q.size()) {
-      ll v = q.front(); q.pop();
-      bfs_order.eb(v);
-      for (ll i = 0; i < char_size; i++) {
-        ll nv = nodes[v].nxt[i];
-        if (nv != -1) {
-          nodes[nv].fail = nodes[nodes[v].fail].nxt[i];
-          nodes[nv].exist += nodes[nodes[nv].fail].exist;
-          q.em(nv);
+      ll u = q.front(); q.pop();
+      bfs_order.eb(u);
+      rep (i, char_size) {
+        ll v = nodes[u].nxt[i];
+        if (v != -1) {
+          nodes[v].fail = nodes[nodes[u].fail].nxt[i];
+          nodes[v].exist += nodes[nodes[v].fail].exist;
+          q.em(v);
         } else {
-          nodes[v].nxt[i] = nodes[nodes[v].fail].nxt[i];
+          nodes[u].nxt[i] = nodes[nodes[u].fail].nxt[i];
         }
       }
     }
@@ -73,12 +73,12 @@ template <ll char_size = 26, char margin = 'a'> struct AhoCorasick {
 
     -- Add pattern string --
     ll aho.add(const string& s)
-    Time complexity: O(|s|)
+    Time Complexity: O(|s|)
     Returns the index of the added string (unique ID)
 
     -- Build --
     void aho.build()
-    Time complexity: O(total number of nodes × char_size)
+    Time Complexity: O(total number of nodes × char_size)
 
     -- State transition --
     ll aho(ll v, char c)

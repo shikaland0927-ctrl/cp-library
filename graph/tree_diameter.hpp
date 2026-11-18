@@ -8,9 +8,9 @@ template <typename T = ll> struct TreeDiameter {
 
   TreeDiameter(ll n) : g(n), n(n), parent(n) {}
 
-  void add_edge(ll a, ll b, T cost = 1) {
-    g[a].eb(b, cost);
-    g[b].eb(a, cost);
+  void add_edge(ll u, ll v, T cost = 1) {
+    g[u].eb(v, cost);
+    g[v].eb(u, cost);
   }
 
   void build() {
@@ -21,19 +21,19 @@ template <typename T = ll> struct TreeDiameter {
     ep2 = v;
   }
 
-  pair<T, ll> bfs(ll u) {
+  pair<T, ll> bfs(ll s) {
     parent.assign(n, -1);
     vector<T> dist(n, 0);
     queue<ll> q;
-    q.push(u);
-    pair<T, ll> res = {0, u};
+    q.em(s);
+    pair<T, ll> res = {0, s};
     while (q.size()) {
-      ll v = q.front(); q.pop();
-      if (dist[v] > res.fi) res = {dist[v], v};
-      for (auto [nv, cost] : g[v]) if (nv != parent[v]) {
-        dist[nv] = dist[v] + cost;
-        parent[nv] = v;
-        q.push(nv);
+      ll u = q.front(); q.pop();
+      if (dist[u] > res.fi) res = {dist[u], u};
+      for (auto [v, cost] : g[u]) if (v != parent[u]) {
+        dist[v] = dist[u] + cost;
+        parent[v] = u;
+        q.em(v);
       }
     }
     return res;
@@ -41,11 +41,7 @@ template <typename T = ll> struct TreeDiameter {
 
   vector<ll> get_path() {
     vector<ll> path;
-    ll v = ep2;
-    while (v != -1) {
-      path.eb(v);
-      v = parent[v];
-    }
+    for (ll v = ep2; v != -1; v = parent[v]) path.eb(v);
     reverse(all(path));
     return path;
   }
@@ -57,16 +53,16 @@ template <typename T = ll> struct TreeDiameter {
     return {path[m / 2 - 1], path[m / 2]};
   }
 
-  vector<T> get_distance(ll start) {
+  vector<T> get_distance(ll s) {
     vector<T> dist(n, -1);
     queue<ll> q;
-    q.em(start);
-    dist[start] = 0;
+    q.em(s);
+    dist[s] = 0;
     while (q.size()) {
-      ll v = q.front(); q.pop();
-      for (auto [nv, cost] : g[v]) if (dist[nv] == -1) {
-        dist[nv] = dist[v] + cost;
-        q.em(nv);
+      ll u = q.front(); q.pop();
+      for (auto [v, cost] : g[u]) if (dist[v] == -1) {
+        dist[v] = dist[u] + cost;
+        q.em(v);
       }
     }
     return dist;
@@ -92,27 +88,27 @@ template <typename T = ll> struct TreeDiameter {
     
     -- Tree Endpoints, Diameter --
     void tree.build()
-    Time complexity: O(n)
+    Time Complexity: O(n)
     Computes the following member variables
      - Tree endpoints: ep1, ep2
      - Tree diameter: dia
 
     -- Get Diameter Path (Requires build) --
     vector<ll> tree.get_path()
-    Time complexity: Worst-case O(n)
+    Time Complexity: Worst-case O(n)
 
     -- Tree Center (Requires build) --
     vector<ll> tree.get_center()
-    Time complexity: Worst-case O(n)
+    Time Complexity: Worst-case O(n)
     Returns 1 element if the number of vertices in the diameter path is odd, and 2 elements if even.
 
     -- Distance from Specified Vertex (Requires build) --
-    vector<T> tree.get_distance(ll v);
-    Time complexity: O(n)
-    Returns an array of distances from vertex v to each vertex.
+    vector<T> tree.get_distance(ll s)
+    Time Complexity: O(n)
+    Returns an array of distances from vertex s to each vertex.
 
     -- Farthest Vertex for Each Vertex (Requires build) --
-    vector<pair<T, ll>> tree.get_farthest();
-    Time complexity: O(n)
+    vector<pair<T, ll>> tree.get_farthest()
+    Time Complexity: O(n)
     For each vertex i, returns {distance to the farthest vertex, farthest vertex}.
 */

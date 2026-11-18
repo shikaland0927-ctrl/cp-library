@@ -1,6 +1,6 @@
 #pragma once
 // snippet: lca
-template <class S, S (*op)(S, S), S (*e)()> struct LCA {
+template <typename S, S (*op)(S, S), S (*e)()> struct LCA {
   ll n, log_size;
   vector<vector<pair<ll, S>>> g;
   vector<vector<ll>> parent;
@@ -20,35 +20,37 @@ template <class S, S (*op)(S, S), S (*e)()> struct LCA {
   }
 
   void build(ll root = 0) {
-    dfs(root, -1, 0, e());
-    rep (k, log_size - 1) rep (v, n) {
-      if (parent[k][v] < 0) {
-        parent[k + 1][v] = -1;
-        dat[k + 1][v] = dat[k][v];
+    dat[0][root] = e();
+    dfs(root, -1, 0);
+    rep (i, log_size - 1) rep (v, n) {
+      if (parent[i][v] < 0) {
+        parent[i + 1][v] = -1;
+        dat[i + 1][v] = dat[i][v];
       } else {
-        parent[k + 1][v] = parent[k][parent[k][v]];
-        dat[k + 1][v] = op(dat[k][v], dat[k][parent[k][v]]);
+        parent[i + 1][v] = parent[i][parent[i][v]];
+        dat[i + 1][v] = op(dat[i][v], dat[i][parent[i][v]]);
       }
     }
   }
 
-  void dfs(ll v, ll p, ll d, S cost) {
-    parent[0][v] = p;
-    dat[0][v] = cost;
-    depth[v] = d;
-    for (auto& [nv, ncost] : g[v]) {
-      if (nv != p) dfs(nv, v, d + 1, ncost);
+  void dfs(ll u, ll p, ll d) {
+    parent[0][u] = p;
+    depth[u] = d;
+    for (auto& [v, cost] : g[u]) {
+      if (v == p) continue;
+      dat[0][v] = cost;
+      dfs(v, u, d + 1);
     }
   }
 
   ll lca(ll u, ll v) {
     if (depth[u] < depth[v]) swap(u, v);
     ll diff = depth[u] - depth[v];
-    rep (k, log_size) if ((diff >> k) & 1) u = parent[k][u];
+    rep (i, log_size) if ((diff >> i) & 1) u = parent[i][u];
     if (u == v) return u;
-    rrep (k, log_size) if (parent[k][u] != parent[k][v]) {
-      u = parent[k][u];
-      v = parent[k][v];
+    rrep (i, log_size) if (parent[i][u] != parent[i][v]) {
+      u = parent[i][u];
+      v = parent[i][v];
     }
     return parent[0][u];
   }
