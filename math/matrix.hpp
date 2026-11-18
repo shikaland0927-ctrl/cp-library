@@ -16,8 +16,8 @@ template <class T> struct Matrix {
     }
   }
 
-  inline T* operator[](ll k) { return A.data() + k * w; }
-  inline const T* operator[](ll k) const { return A.data() + k * w; }
+  inline T* operator[](ll i) { return A.data() + i * w; }
+  inline const T* operator[](ll i) const { return A.data() + i * w; }
 
   static Matrix I(ll n) {
     Matrix mat(n);

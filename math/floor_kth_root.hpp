@@ -18,9 +18,9 @@ ull floor_kth_root(ull n, ull k) {
   }();
   ull ac = 1, wa = min(n, lim[k]);
   while (wa - ac > 1) {
-    ull wj = (ac + wa) / 2, p = 1;
-    rep (i, k) p *= wj;
-    (p <= n ? ac : wa) = wj;
+    ull wj = (ac + wa) / 2, pw = 1;
+    rep (i, k) pw *= wj;
+    (pw <= n ? ac : wa) = wj;
   }
   return ac;
 }

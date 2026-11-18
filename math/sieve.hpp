@@ -52,7 +52,7 @@ struct Sieve {
     if (x <= 0) return 0;
     if (x == 1) return 1;
     ll res = 1;
-    for (auto& p : prime_factors(x)) res *= p.se + 1;
+    for (auto [p, exp] : prime_factors(x)) res *= exp + 1;
     return res;
   }
 
@@ -60,12 +60,12 @@ struct Sieve {
     if (x <= 0) return 0;
     if (x == 1) return 1;
     ll res = 1;
-    for (auto& p : prime_factors(x)) {
+    for (auto [p, exp] : prime_factors(x)) {
       ll sum = 0;
-      ll cur = 1;
-      rep (i, p.se + 1) {
-        sum += cur;
-        cur *= p.fi;
+      ll pw = 1;
+      rep (i, exp + 1) {
+        sum += pw;
+        pw *= p;
       }
       res *= sum;
     }
@@ -83,10 +83,10 @@ struct Sieve {
         return;
       }
       auto [p, exp] = pf[idx];
-      ll mul = 1;
+      ll pw = 1;
       rep (i, exp + 1) {
-        dfs(dfs, idx + 1, val * mul);
-        mul *= p;
+        dfs(dfs, idx + 1, val * pw);
+        pw *= p;
       }
     };
     dfs(dfs, 0, 1);
@@ -98,7 +98,7 @@ struct Sieve {
     if (x <= 0) return 0;
     if (x == 1) return 1;
     ll res = x;
-    for (auto& p : prime_factors(x)) res = res / p.fi * (p.fi - 1);
+    for (auto [p, exp] : prime_factors(x)) res = res / p * (p - 1);
     return res;
   }
 };

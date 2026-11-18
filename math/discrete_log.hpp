@@ -15,13 +15,13 @@ ll discrete_log(ll a, ll b, ll m) {
   rep(n) an = mul(an, a);
   unordered_map<ll, ll> vals;
   vals.reserve(2 * n + 2);
-  for (ll q = 0, cur = b; q <= n; q++) {
-    vals[cur] = q;
+  for (ll j = 0, cur = b; j <= n; j++) {
+    vals[cur] = j;
     cur = mul(cur, a);
   }
-  for (ll p = 1, cur = k; p <= n; p++) {
+  for (ll i = 1, cur = k; i <= n; i++) {
     cur = mul(cur, an);
-    if (auto it = vals.find(cur); it != vals.end()) return n * p - it->se + add;
+    if (auto it = vals.find(cur); it != vals.end()) return n * i - it->se + add;
   }
   return -1;
 }

@@ -19,8 +19,8 @@ struct SemiringMatrix {
     for (const auto& row : init) A.insert(A.end(), row.begin(), row.end());
   }
 
-  inline T* operator[](ll k) { return A.data() + k * w; }
-  inline const T* operator[](ll k) const { return A.data() + k * w; }
+  inline T* operator[](ll i) { return A.data() + i * w; }
+  inline const T* operator[](ll i) const { return A.data() + i * w; }
 
   static SemiringMatrix I(ll n) {
     SemiringMatrix mat(n);

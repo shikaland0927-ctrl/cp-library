@@ -2,10 +2,10 @@
 // snippet: divisors
 vector<ll> divisors(ll n) {
   vector<ll> res;
-  for (ll i = 1; i * i <= n; i++) {
-    if (n % i == 0) {
-      res.eb(i);
-      if (i * i != n) res.eb(n / i);
+  for (ll d = 1; d * d <= n; d++) {
+    if (n % d == 0) {
+      res.eb(d);
+      if (d * d != n) res.eb(n / d);
     }
   }
   sort(all(res));
