@@ -1,6 +1,5 @@
 #ifndef ONLINE_JUDGE
-#define _GLIBCXX_DEBUG
-#define SHOW(...) show_debug(#__VA_ARGS__ __VA_OPT__(,) __VA_ARGS__)
+#include "debug.hpp"
 #else
 #define SHOW(...) ((void)0)
 #endif
@@ -78,42 +77,26 @@ template <typename... T> void input_col(ll n, T&... a) { (a.resize(n), ...); rep
 template <typename T> concept string_like = convertible_to<const T&, string_view>;
 template <typename T> concept output_range = ranges::input_range<const T&> && (!string_like<T>);
 template <typename> inline constexpr bool always_false = false;
-template <typename T> void output_value(ostream& os, const T& value, bool debug) {
-  using U = remove_cvref_t<T>;
-  if constexpr (string_like<T>) {
-    if (debug) os << '"';
-    os << value;
-    if (debug) os << '"';
-  } else if constexpr (same_as<U, char>) {
-    if (debug) os << '\'';
-    os << value;
-    if (debug) os << '\'';
-  } else if constexpr (output_range<T>) {
-    if (debug) os << '[';
+template <typename T> void output_value(ostream& os, const T& value) {
+  if constexpr (output_range<T>) {
     bool first = true;
     for (const auto& x : value) {
-      if (!exchange(first, false)) os << (debug ? ", " : " ");
-      output_value(os, x, debug);
+      if (!exchange(first, false)) os << ' ';
+      output_value(os, x);
     }
-    if (debug) os << ']';
   } else if constexpr (tuple_like<T>) {
-    if (debug) os << '(';
     bool first = true;
-    apply([&](const auto&... x) {
-      ((os << (exchange(first, false) ? "" : (debug ? ", " : " ")), output_value(os, x, debug)), ...);
-    }, value);
-    if (debug) os << ')';
-  } else if constexpr (floating_point<U>) {
+    apply([&](const auto&... x) { ((os << (exchange(first, false) ? "" : " "), output_value(os, x)), ...); }, value);
+  } else if constexpr (floating_point<remove_cvref_t<T>>) {
     const auto flags = os.flags();
     const auto precision = os.precision();
-    if (debug) os << setprecision(15) << value;
-    else os << fixed << setprecision(15) << value;
+    os << fixed << setprecision(15) << value;
     os.flags(flags);
     os.precision(precision);
   } else if constexpr (requires { os << value; }) {
     os << value;
   } else if constexpr (requires { value.val(); }) {
-    output_value(os, value.val(), debug);
+    output_value(os, value.val());
   } else {
     static_assert(always_false<T>, "output_value: unsupported type");
   }
@@ -121,12 +104,6 @@ template <typename T> void output_value(ostream& os, const T& value, bool debug)
 inline void PRINT() { cout << '\n'; }
 template <typename... T> requires (sizeof...(T) > 0) void PRINT(const T&... value) {
   bool first = true;
-  ((cout << (exchange(first, false) ? "" : " "), output_value(cout, value, false)), ...);
+  ((cout << (exchange(first, false) ? "" : " "), output_value(cout, value)), ...);
   cout << '\n';
-}
-template <typename... T> void show_debug(string_view names, const T&... value) {
-  cerr << '[' << names << "] = [";
-  bool first = true;
-  ((cerr << (exchange(first, false) ? "" : ", "), output_value(cerr, value, true)), ...);
-  cerr << "]\n";
 }

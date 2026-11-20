@@ -7,6 +7,7 @@ AtCoder の生成AI対策ルールでは、コンテスト前に生成AIを使�
 ## 構成
 
 - `template.hpp` — すべての解答の先頭に入れているテンプレート（マクロ・入出力ヘルパ）
+- `debug.hpp` — 手元で実行するときだけ `template.hpp` が読み込むデバッグ用のヘッダ（`SHOW(...)`・`_GLIBCXX_DEBUG`）。ジャッジでは `ONLINE_JUDGE` が定義されているので読み込まれず、提出には含めていません
 - `ds/` `graph/` `string/` `math/` `geom/` `misc/` — ライブラリ本体
 
 ライブラリのコードは `template.hpp` のマクロ（`ll`, `rep` など）と AtCoder Library を前提にしています。
