@@ -102,7 +102,7 @@ private:
     E merge(E a, E b)          : Merges two edge data values, a and b
     E e()                      : Returns the identity element of merge
     E put_edge(V v, ll e_id)   : Converts vertex data v into edge data for edge e_id
-    V put_vertex(E e, ll v_id) : Converts aggregated edge data e into vertex data for vertex v_id
+    V put_vertex(E x, ll v_id) : Converts aggregated edge data x into vertex data for vertex v_id
 
     -- Constructor --
     Rerooting<E, V, merge, e, put_edge, put_vertex> tree(ll n)
@@ -126,4 +126,4 @@ using V = ll;
 E merge(E a, E b) { return a + b; }
 E e() { return 0; }
 E put_edge(V v, ll e_id) { return v; }
-V put_vertex(E e, ll v_id) { return e; }
+V put_vertex(E x, ll v_id) { return x; }
