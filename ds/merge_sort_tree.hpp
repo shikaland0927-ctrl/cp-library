@@ -4,11 +4,11 @@ struct MergeSortTree {
   ll n;
   vector<vector<ll>> tree;
 
-  MergeSortTree(const vector<ll>& v) : n(v.size()), tree(2 * n) {
+  MergeSortTree(const vector<ll>& v) : n(v.size()), tree(n * 2) {
     rep (i, n) tree[n + i] = {v[i]};
     rrep (i, n, 1) {
-      tree[i].resize(tree[2 * i].size() + tree[2 * i + 1].size());
-      merge(all(tree[2 * i]), all(tree[2 * i + 1]), tree[i].begin());
+      tree[i].resize(tree[i * 2].size() + tree[i * 2 + 1].size());
+      merge(all(tree[i * 2]), all(tree[i * 2 + 1]), tree[i].begin());
     }
   }
 

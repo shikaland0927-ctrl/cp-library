@@ -14,7 +14,7 @@ ll discrete_log(ll a, ll b, ll m) {
   ll n = sqrtl(m) + 1, an = 1;
   rep (n) an = mul(an, a);
   unordered_map<ll, ll> vals;
-  vals.reserve(2 * n + 2);
+  vals.reserve(n * 2 + 2);
   for (ll j = 0, cur = b; j <= n; j++) {
     vals[cur] = j;
     cur = mul(cur, a);

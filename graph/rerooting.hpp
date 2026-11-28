@@ -30,7 +30,7 @@ struct Rerooting {
     start.assign(n + 1, 0);
     rep (v, n) start[v + 1] = g[v].size();
     rep (v, n) start[v + 1] += start[v];
-    es.resize(2 * n - 2);
+    es.resize(n * 2 - 2);
     vector<ll> pos = start;
     rep (v, n) {
       for (auto& edge : g[v]) {
